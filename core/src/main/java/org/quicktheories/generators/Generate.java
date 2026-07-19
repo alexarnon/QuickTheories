@@ -59,6 +59,9 @@ public class Generate {
    * @return A Gen of T
    */
   public static <T> Gen<T> pick(List<T> ts) {
+    if (ts.isEmpty()) {
+      throw new IllegalArgumentException("Cannot pick elements of an empty list");
+    }
     Gen<Integer> index = range(0, ts.size() - 1);
     return prng -> ts.get(index.generate(prng));
   }
@@ -259,7 +262,8 @@ public class Generate {
    */
   public static Gen<Integer> range(final int startInclusive,
       final int endInclusive, final int shrinkTarget) {
-    return td -> Integer.valueOf((int)td.next(Constraint.between(startInclusive, endInclusive).withShrinkPoint(shrinkTarget)));
+    Constraint constraint = Constraint.between(startInclusive, endInclusive).withShrinkPoint(shrinkTarget);
+    return td -> (int) td.next(constraint);
   }
   
   /**
@@ -270,7 +274,8 @@ public class Generate {
    */
   public static Gen<Integer> rangeWithNoShrinkPoint(final int startInclusive,
                                                      final int endInclusive) {
-    return td -> Integer.valueOf((int)td.next(Constraint.between(startInclusive, endInclusive).withNoShrinkPoint()));
+    Constraint constraint = Constraint.between(startInclusive, endInclusive).withNoShrinkPoint();
+    return td -> (int) td.next(constraint);
   }
   
   /**
@@ -293,7 +298,8 @@ public class Generate {
    */
   public static Gen<Long> longRange(final long startInclusive,
       final long endInclusive, final long shrinkTarget) {
-    return prng -> prng.next(Constraint.between(startInclusive, endInclusive).withShrinkPoint(shrinkTarget));
+    Constraint constraint = Constraint.between(startInclusive, endInclusive).withShrinkPoint(shrinkTarget);
+    return prng -> prng.next(constraint);
   }  
   
   /**
@@ -305,7 +311,8 @@ public class Generate {
    */
   public static Gen<Byte> bytes(final byte startInclusive,
       final byte endInclusive, final byte shrinkTarget) {
-    return prng -> (byte) prng.next(Constraint.between(startInclusive, endInclusive).withShrinkPoint(shrinkTarget));
+    Constraint constraint = Constraint.between(startInclusive, endInclusive).withShrinkPoint(shrinkTarget);
+    return prng -> (byte) prng.next(constraint);
   } 
   
   /**
