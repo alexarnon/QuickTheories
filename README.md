@@ -3,6 +3,8 @@
 
 # QuickTheories
 
+(Ignore, old)
+
 Property-based testing for Java 8.
 
 If you were looking for QuickCheck for Java you just found it. This is the 0.1 series release branch.
